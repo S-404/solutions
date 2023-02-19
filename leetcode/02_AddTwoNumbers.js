@@ -22,9 +22,26 @@
 // 0 <= Node.val <= 9
 // It is guaranteed that the list represents a number that does not have leading zeros.
 
-var addTwoNumbers = function(l1, l2) {
-    console.log('l1',JSON.stringify(l1) )
-    console.log('l2',l2)
+var addTwoNumbers = function (l1, l2) {
+    const listToArr = (list) => {
+        const resultArr = []
+        if (list?.val !== undefined)
+            resultArr.push(list.val)
+        if (list?.next)
+            resultArr.push(...listToArr(list.next))
+        return resultArr
+    }
+    const arrToList = (arr) => arr.length ?
+        new ListNode(
+            arr[0],
+            arr.length > 1 ? arrToList(arr.slice(1)) : null
+        ) :
+        null
+    const numFromList = list => Number(listToArr(list).reverse().join(''))
+    const strToNum = str => Number(str)
+    const sumArr = Array.from(String(numFromList(l1) + numFromList(l2)), strToNum).reverse() 
+    return arrToList(sumArr)
+
 };
 
 const cases = [
@@ -44,6 +61,6 @@ const cases = [
 
 let count = 0
 for (let c of cases) {
-    console.log(`case:"${count}" converted to "${addTwoNumbers(c.l1,c.l2)}"`)
+    console.log(`case:"${count}" converted to "${JSON.stringify(addTwoNumbers(c.l1, c.l2))}"`)
     count++
 }
