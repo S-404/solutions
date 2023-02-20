@@ -22,42 +22,35 @@
 // 0 <= Node.val <= 9
 // It is guaranteed that the list represents a number that does not have leading zeros.
 
+function ListNode(val, next) {
+    this.val = (val === undefined ? 0 : val)
+    this.next = (next === undefined ? null : next)
+}
+
 var addTwoNumbers = function (l1, l2) {
-    const listToArr = (list) => {
-        const resultArr = []
-        if (list?.val !== undefined)
-            resultArr.push(list.val)
-        if (list?.next)
-            resultArr.push(...listToArr(list.next))
-        return resultArr
-    }
-    const arrToList = (arr) => arr.length ?
-        new ListNode(
-            arr[0],
-            arr.length > 1 ? arrToList(arr.slice(1)) : null
-        ) :
-        null
+    let result = new ListNode(0)
+    let currentNode = result
+    let mem = 0
 
-    const sumArr = (arr1, arr2) => {
-        let resultArr = []
-        let mem = 0
-        for (let i = 0; i < Math.max(arr1.length, arr2.length); i++) {
-            let getValue = arr => arr.length > i ? arr[i] : 0
-            let sum = getValue(arr1) + getValue(arr2) + mem
-            if (sum >= 10) {
-                resultArr.push(sum % 10)
-                mem = 1
-            } else {
-                resultArr.push(sum)
-                mem = 0
-            }
+    while (l1 !== null || l2 !== null) {
+        let sum = mem
+        if (l1 !== null) {
+            sum += l1.val
+            l1 = l1.next
         }
-        if (mem) resultArr.push(mem)
-        return resultArr.concat()
+        if (l2 !== null) {
+            sum += l2.val
+            l2 = l2.next
+        }
+        mem = sum >= 10 ? 1 : 0
+        currentNode.next = new ListNode(sum % 10)
+        currentNode = currentNode.next
+
     }
 
-    const sumArrResult = sumArr(listToArr(l1), listToArr(l2))
-    return arrToList(sumArrResult)
+    if (mem) currentNode.next = new ListNode(mem)
+
+    return result.next
 
 };
 
@@ -124,7 +117,7 @@ const cases = [
 
 let count = 0
 for (let c of cases) {
-    console.log(`case:"${count}" converted to "${JSON.stringify(testArrs(c.l1, c.l2))}"`)
+    console.log(`case:"${count}" converted to "${JSON.stringify(addTwoNumbers(c.l1, c.l2))}"`)
     count++
 }
 
