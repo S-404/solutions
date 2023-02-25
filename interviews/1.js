@@ -1,13 +1,10 @@
 //функция должна возвращать уникальное неповторяющееся значение в массиве чисел.
 var singleNumber = function (nums) {
-    let result = nums.reduce((prev,curr)=>{
-         prev[curr] = prev[curr] !== undefined ? prev[curr] += 1 : 1
-         return prev
-    },{})
-    for(let key in result){
-        if(result[key]===1) return key
-    }
-
+    let resultArray = nums.filter((value, index, array) => {
+        return array.indexOf(value) === index &&
+            array.lastIndexOf(value) === index
+    })
+    return resultArray.length ? resultArray[0] : null
 };
 
 console.log(singleNumber([2, 1, 2]))
