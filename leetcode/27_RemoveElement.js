@@ -56,7 +56,19 @@ Constraints:
 */
 
 var removeElement = function (nums, val) {
-    return `nums-${nums}/val-${val}`
+
+    let count = 0
+    for (let x = 0; x < nums.length; x++) {
+        if(nums[x] === val){
+            nums[x] = null
+        }else{
+            count += 1
+        }
+    }
+    nums.sort()
+    nums.length = count
+    return nums.length
+    
 };
 
 let cases = [
