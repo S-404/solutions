@@ -1,9 +1,6 @@
 /*
-Given a string s, find the length of the longest
-substring
-without repeating characters.
+Given a string s, find the length of the longest substring without repeating characters.
 
- 
 Example 1:
 
 Input: s = "abcabcbb"
@@ -37,11 +34,24 @@ Constraints:
  * @param {string} s
  * @return {number}
  */
-var lengthOfLongestSubstring = function(s) {
-    
+var lengthOfLongestSubstring = function (s) {
+    let maxLength = 0
+    let arr = []
+    for (let i = 0; i < s.length; i++) {
+        if (arr.length === 0) {
+            arr.push(s[i])
+            continue
+        }
+        if (arr.indexOf(s[i]) !== -1) {
+            maxLength = Math.max(maxLength, arr.length)
+            arr = arr.slice(arr.indexOf(s[i]) + 1)
+        }
+        arr.push(s[i])
+    }
+    return Math.max(maxLength, arr.length)
 };
 
-let cases = ["abcabcbb", "bbbbb","pwwkew"]
+let cases = ["aabaab!bb", "dvdf", " ", "abcabcbb", "bbbbb", "pwwkew",]
 for (let c of cases) {
     console.log(`case:"${c}" - result:"${lengthOfLongestSubstring(c)}"`)
 }
