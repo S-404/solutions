@@ -13,22 +13,11 @@ output: undefined
 
 */
 
-const get = (keySequence, nestedObject) => {
-    let keys = keySequence.split('.')
-    let depth = -1
-    const parseLinks = (nestedObject) => {
-        depth++
-        if(depth >= keys.length) return
-        if (nestedObject[keys[depth]]) {
-            return typeof nestedObject[keys[depth]] === 'object' ?
-                parseLinks(nestedObject[keys[depth]]) :
-                nestedObject[keys[depth]]
-        }
-    }
-    let result = parseLinks(nestedObject)
-    return result
+const get = (keySequence, nestedObject) =>
+    keySequence
+        .split('.')
+        .reduce((nested, key) => nested && nested[key], nestedObject)
 
-}
 
 const cases = [
     {
@@ -38,6 +27,10 @@ const cases = [
     {
         keySequence: 'red.fast.fancy.car',
         nestedObject: { red: { slow: 'smth' } }
+    },
+    {
+        keySequence: 'cat.say',
+        nestedObject: { cat: {say: 'maw'} } 
     },
 ]
 
