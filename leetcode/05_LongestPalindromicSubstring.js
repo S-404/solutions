@@ -19,43 +19,35 @@ Constraints:
  * @param {string} s
  * @return {string}
  */
+
+
 var longestPalindrome = function (s) {
-
-    let chars = s.split('')
-    let result = ''
-    let tmpStr = ''
-
     const isPalindrome = (str) => {
-        for (let i = 0; i < str.length / 2; i++) {
-            if (str[i] !== str[str.length - 1 - i]) return false
-        }
-        return true
+        return str === str.split("").reverse().join("");
     }
+    if (isPalindrome(s)) { return s; }
+    let [len, resultIndex] = [1, 0]
+    let startIndex, endIndex
 
+    for (let i = 0; i < s.length; i++) {
+        startIndex = i - 1;
+        endIndex = i + 1;
 
-    for (let x = 0; x < chars.length; x++) {
+        while (s[endIndex] === s[i]) { endIndex++; }
+        while (s[startIndex] === s[i]) { startIndex--; }
 
-        let sameCharsInds = chars
-            .slice(x + 1)
-            .reduce((acc, curr, index) => {
-                if (curr === chars[x]) {
-                    acc.push(index)
-                }
-                return acc
-            }, [])
-
-        for (i = sameCharsInds.length - 1; i >= 0; i--) {
-            tmpStr = s.slice(x, x + 1 + sameCharsInds[i] + 1)
-            if (isPalindrome(tmpStr)) {
-                result = tmpStr.length > result.length ? tmpStr : result
-                break
-            } 
+        while (startIndex >= 0 && endIndex < s.length && s[startIndex] === s[endIndex]) {
+            startIndex--;
+            endIndex++;
         }
 
-        if (result.length === s.length) break
+        if (endIndex - startIndex - 1 > len) {
+            len = endIndex - startIndex - 1;
+            resultIndex = startIndex + 1;
+        }
     }
 
-    return result.length === 0 ? s[0] : result
+    return s.slice(resultIndex, resultIndex + len);
 };
 
 let cases = ["acbbcaa", "aclotatolca", "ccc", "ac", "a", "babad", "cbbd",]
