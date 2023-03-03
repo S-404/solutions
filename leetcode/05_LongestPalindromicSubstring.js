@@ -19,11 +19,46 @@ Constraints:
  * @param {string} s
  * @return {string}
  */
-var longestPalindrome = function(s) {
+var longestPalindrome = function (s) {
 
+    let chars = s.split('')
+    let result = ''
+    let tmpStr = ''
+
+    const isPalindrome = (str) => {
+        for (let i = 0; i < str.length / 2; i++) {
+            if (str[i] !== str[str.length - 1 - i]) return false
+        }
+        return true
+    }
+
+
+    for (let x = 0; x < chars.length; x++) {
+
+        let sameCharsInds = chars
+            .slice(x + 1)
+            .reduce((acc, curr, index) => {
+                if (curr === chars[x]) {
+                    acc.push(index)
+                }
+                return acc
+            }, [])
+
+        for (i = sameCharsInds.length - 1; i >= 0; i--) {
+            tmpStr = s.slice(x, x + 1 + sameCharsInds[i] + 1)
+            if (isPalindrome(tmpStr)) {
+                result = tmpStr.length > result.length ? tmpStr : result
+                break
+            } 
+        }
+
+        if (result.length === s.length) break
+    }
+
+    return result.length === 0 ? s[0] : result
 };
 
-let cases = ["babad", "cbbd",]
+let cases = ["acbbcaa", "aclotatolca", "ccc", "ac", "a", "babad", "cbbd",]
 for (let c of cases) {
     console.log(`case:"${c}" - result:"${longestPalindrome(c)}"`)
 }
