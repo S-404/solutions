@@ -40,12 +40,24 @@ Constraints:
  * @param {number[]} digits
  * @return {number[]}
  */
-var plusOne = function(digits) {
-
+var plusOne = function (digits) {
+    let mem = 1
+    for (let x = digits.length - 1; x >= 0; x--) {
+        if (digits[x] + mem > 9) {
+            digits[x] = (digits[x] + mem) - 10
+            mem = 1
+        } else {
+            digits[x] += mem
+            mem = 0
+            break
+        }
+    }
+    if (mem) digits.unshift(mem)
+    return digits
 };
 
 
-let cases = [[1,2,3], [4,3,2,1] , [9]]
+let cases = [[1, 2, 3], [4, 3, 2, 1], [9]]
 for (let c of cases) {
     console.log(`case:"${JSON.stringify(c)}" - result:"${plusOne(c)}"`)
 }
