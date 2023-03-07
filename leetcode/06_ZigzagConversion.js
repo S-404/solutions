@@ -40,7 +40,22 @@ Constraints:
  * @return {string}
  */
 var convert = function (s, numRows) {
-    
+
+    let result = []
+    let forward = true
+
+    for (let x = 0, rowNum = 0; x < s.length; x++) {
+
+        result[rowNum] = result[rowNum] ? result[rowNum] + s[x] : s[x]
+
+        forward = rowNum === 0 ? true :
+            rowNum === numRows - 1 ? false :
+                forward
+
+        rowNum = forward ? rowNum + 1 : rowNum - 1
+    }
+
+    return result.join('')
 };
 
 
