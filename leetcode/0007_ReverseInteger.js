@@ -25,11 +25,14 @@ Constraints:
  * @param {number} x
  * @return {number}
  */
-var reverse = function(x) {
-    
+var reverse = function (x) {
+    let str = String(Math.abs(x)).split('').reverse().join('')
+    return str > (2 ** 31) - 1 ?
+        0 :
+        Number(x < 0 ? `-${str}` : str)
 };
 
-let cases = [123, -123, 120]
+let cases = [123, -123, 120, 1534236469]
 for (let c of cases) {
     console.log(`case:"${c}" - result:"${reverse(c)}"`)
 }
