@@ -32,11 +32,32 @@ Constraints:
  * @param {number[]} height
  * @return {number}
  */
-var maxArea = function(height) {
-    
+var maxArea = function (height) {
+    let maxArea = 0
+    let left = 0
+    let right = height.length - 1
+
+    //O(n**2)
+    // for (let i = 0; i < height.length; i++) {
+    //     for (let x = i + 1; x < height.length; x++) {
+    //         maxArea = Math.max(maxArea, Math.min(height[i], height[x]) * (x - i))
+    //     }
+    // }
+
+    //O(n)
+    while (left < right) {
+        maxArea = Math.max(maxArea, Math.min(height[left], height[right]) * (right - left))
+        if (height[left] < height[right]) {
+            left += 1
+        } else {
+            right -= 1
+        }
+    }
+
+    return maxArea
 };
 
-let cases = [[1,8,6,2,5,4,8,3,7], [1,1]]
+let cases = [[1, 8, 6, 2, 5, 4, 8, 3, 7], [1, 1],]
 for (let c of cases) {
     console.log(`case:"${JSON.stringify(c)}" - result:"${maxArea(c)}"`)
 }
