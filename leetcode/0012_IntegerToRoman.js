@@ -50,12 +50,54 @@ Constraints: 1 <= num <= 3999
  * @param {number} num
  * @return {string}
  */
-var intToRoman = function(num) {
+var intToRoman = function (num) {
 
+    const vmap = {
+        1: "I",
+        5: "V",
+        10: "X",
+        50: "L",
+        100: "C",
+        500: "D",
+        1000: "M"
+    }
+
+    let nums = String(num).split('').reverse()
+
+    let res = []
+
+    const cap = (n, i) => n * (10 ** i)
+
+    for (let i = 0; i < nums.length; i++) {
+
+        let val = ''
+
+        switch (nums[i]) {
+            case '4':
+                val += vmap[cap(1, i)] + vmap[cap(5, i)]
+                break;
+            case '9':
+                val += vmap[cap(1, i)] + vmap[cap(1, i) * 10]
+                break;
+            default:
+
+                if (Math.floor(nums[i] / 5))
+                    val += vmap[cap(5, i)] ?? ''
+
+                let tail = nums[i] % 5
+                val += vmap[cap(1, i)].repeat(tail)
+        }
+
+
+        res.push(val)
+
+    }
+
+    return res.reverse().join('')
 };
 
 
-let cases = [3, 58, 1994]
+let cases = [1994, 3, 58]
 for (let str of cases) {
     console.log(`value:"${str}" converted to "${intToRoman(str)}"`)
 }
