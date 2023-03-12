@@ -28,7 +28,19 @@ Constraints:
  * @return {string[][]}
  */
 var groupAnagrams = function (strs) {
-   
+    let collection = {}
+    for (let x = 0; x < strs.length; x++) {
+        let col = (strs[x]).split('').sort().join('')
+        if (collection[col]) {
+            collection[col].push(strs[x])
+        } else {
+            collection[col] = [strs[x]]
+        }
+    }
+    return Object.values(collection).reduce((acc, curr) => {
+        acc.push(curr)
+        return acc
+    }, [])
 };
 
 let cases = [["eat", "tea", "tan", "ate", "nat", "bat"], [""], ["a"]]
