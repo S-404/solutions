@@ -22,7 +22,17 @@ Constraints:
  * @return {string}
  */
 var addBinary = function (a, b) {
-    
+       let result = ''
+       let mem = 0
+       let i = 0
+       while (i < a.length || i < b.length) {
+           let sum = Number(a[a.length - 1 - i] || 0) + Number(b[b.length - 1 - i] || 0) + mem
+           mem = Math.max(0, mem - 1)
+           if (sum > 1) mem += 1
+           result = `${sum % 2}${result}`
+           i++
+       }
+       return `${mem ? mem : ''}${result}`
 };
 
 let cases = [
