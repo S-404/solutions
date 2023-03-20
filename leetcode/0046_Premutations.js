@@ -26,7 +26,20 @@ Constraints:
  */
 
 var permute = function (nums) {
+    if (!nums.length) return [[]]
 
+    let result = []
+
+    for (let x = 0; x < nums.length; x++) {
+        let numsCp = [...nums]
+        numsCp.splice(x, 1)
+        let restNums = permute(numsCp)
+        for (let y = 0; y < restNums.length; y++) {
+            result.push([nums[x], ...restNums[y]])
+        }
+    }
+    
+    return result
 };
 
 let cases = [[1, 2, 3], [0, 1], [1], [1, 2, 3, 5],[]]
