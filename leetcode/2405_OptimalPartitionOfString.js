@@ -33,7 +33,18 @@ s consists of only English lowercase letters.
  * @return {number}
  */
 var partitionString = function (s) {
-
+    let tmpStr = ''
+    let result = 0
+    for (let x = 0; x < s.length; x++) {
+        if (tmpStr.indexOf(s[x]) === -1) {
+            tmpStr += s[x]
+        } else {
+            result++
+            tmpStr = s[x]
+        }
+    }
+    if (tmpStr.length) result++
+    return result
 };
 
 let cases = ['abacaba', 'ssssss']
