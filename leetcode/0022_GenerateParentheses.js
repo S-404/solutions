@@ -18,7 +18,25 @@ Constraints:
  * @return {string[]}
  */
 var generateParenthesis = function(n) {
-    
+    let result = []
+
+    const func = (str, open, close) => {
+        if (str.length === n * 2) {
+            result.push(str)
+            return
+        }
+
+        if (open < n)
+            func(str + '(', open + 1, close)
+
+        if (close < open)
+            func(str + ')', open, close + 1)
+
+    }
+
+    func('', 0, 0)
+
+    return result
 };
 
 let cases = [3, 1, 4, 2]
